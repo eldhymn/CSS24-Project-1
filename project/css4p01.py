@@ -6,6 +6,9 @@ Created on Mon Jan 29 14:33:14 2024
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
 movies = pd.read_csv("movie_dataset.csv",index_col = "Rank")
 print(movies.info())
@@ -117,3 +120,59 @@ Here's an idea. Convert all string data into numerical data somehow.
 So, a director score, an actor score, and a genre score, all
 correlated to rating, metascore, and revenue somehow.
 """
+
+director_list = []
+counter_list = []
+for x in movies["Director"]:
+    if director_list.count(x)==0:
+        director_list.append(x)
+    counter_list.append(x)
+    
+count3 = []
+for x in range(len(director_list)):
+    y = counter_list.count(director_list[x])
+    count3.append(y)
+    
+directors = pd.DataFrame(
+    {"Director" : director_list,
+     "Count" : count3
+     })
+
+"""
+I now have dataframes with counts for directors, actors, and genres.
+Add all of that into the movies dataframe with the correct dimensions.
+"""
+
+actor_score = []
+for x in movies["Actors"]:
+    y = x.replace(", ",",").split(",")
+    m=0
+    for c in range(len(y)):
+        m+=int(actors.loc[actors["Actor"]==y[c]]["Count"])
+    actor_score.append(m)
+    
+director_score = []
+for x in movies["Director"]:
+    m=0
+    m+=int(directors.loc[directors["Director"]==x]["Count"])
+    director_score.append(m)
+
+genre_score = []
+for x in movies["Genre"]:
+    y = x.split(",")
+    m=0
+    for c in range(len(y)):
+        m+=int(genres.loc[genres["Genre"]==y[c]]["Count"])
+    genre_score.append(m)
+    
+movies["Genre Score"] = genre_score
+
+movies["Director Score"] = director_score
+
+movies["Actor Score"] = actor_score
+
+sns.pairplot(movies)
+plt.savefig("pairplot.png")
+plt.figure(figsize=(20,14))
+sns.heatmap(movies.corr(numeric_only=True),annot=True,linewidths=3)
+plt.savefig("heatmap.png")

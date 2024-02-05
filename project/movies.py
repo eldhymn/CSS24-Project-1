@@ -97,6 +97,7 @@ actors = pd.DataFrame(
 print(actors.loc[actors["Count"] == actors["Count"].max()]["Actor"])
 print("The most common actor is "+str(actors.loc[238,"Actor"])+", appearing in "+str(actors["Count"].max())+" movies")
 print("\n")
+
 #Question 11, number of unique genres
 genre_list = []
 counter_list = []

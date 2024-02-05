@@ -5,10 +5,10 @@ Created on Mon Jan 29 14:33:14 2024
 @author: bekeu
 """
 
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
 
 movies = pd.read_csv("movie_dataset.csv",index_col = "Rank")
 print(movies.info())
